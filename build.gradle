@@ -21,14 +21,14 @@ config {
     release = (rootProject.findProperty('release') ?: false).toBoolean()
 
     info {
-        name        = 'Mockito - The Good, The Bad, The Ugly'
+        name        = 'MapStruct Learning'
         vendor      = 'Seakayone'
-        description = 'Showcase for usage of mockito mocking frame work, pros and cons'
+        description = 'Learning project for using MapStruct Java bean mapper code generator'
 
         links {
-            website      = 'https://github.com/seakayone/mockito-good-bad-ugly'
-            issueTracker = 'https://github.com/seakayone/mockito-good-bad-ugly/issues'
-            scm          = 'https://github.com/seakayone/mockito-good-bad-ugly.git'
+            website      = 'https://github.com/seakayone/mapstruct-learning'
+            issueTracker = 'https://github.com/seakayone/mapstruct-learning/issues'
+            scm          = 'https://github.com/seakayone/mapstruct-learning.git'
         }
 
         people {
