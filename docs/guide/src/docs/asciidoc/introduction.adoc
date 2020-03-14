@@ -1,0 +1,7 @@
+
+[[_introduction]]
+= Introduction
+
+Learning project for https://mapstruct.org/[MapStruct].
+
+https://mapstruct.org/documentation/stable/reference/html/[Reference Documentation 1.3.1]
