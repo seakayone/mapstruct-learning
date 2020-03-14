@@ -22,6 +22,7 @@ import static org.kleinb.learning.mapstruct.testsupport.RandomTestData.randomUui
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -30,68 +31,76 @@ class SimpleModelMapperTest {
 
   private final SimpleModelMapper mapper = Mappers.getMapper(SimpleModelMapper.class);
 
-  @Test
-  void given_a_model_then_mapper_maps_all_properties_to_the_dto() {
-    final var model = new SimpleModel();
-    model.setSomeBoolean(randomBoolean());
-    model.setSomeString(randomUuid());
-    model.setSomeInt(randomInt());
+  @Nested
+  class Given_Model_And_Dto_Are_Equivalent_Beans {
 
-    final var dto = mapper.simpleModelToSimpleModelDto(model);
+    @Test
+    void then_mapper_maps_all_properties_to_the_dto() {
+      final var model = new SimpleModel();
+      model.setSomeBoolean(randomBoolean());
+      model.setSomeString(randomUuid());
+      model.setSomeInt(randomInt());
 
-    final var softly = new SoftAssertions();
-    softly.assertThat(dto.isSomeBoolean()).isEqualTo(model.isSomeBoolean());
-    softly.assertThat(dto.getSomeString()).isEqualTo(model.getSomeString());
-    softly.assertThat(dto.getSomeInt()).isEqualTo(model.getSomeInt());
-    softly.assertAll();
+      final var dto = mapper.simpleModelToSimpleModelDto(model);
+
+      final var softly = new SoftAssertions();
+      softly.assertThat(dto.isSomeBoolean()).isEqualTo(model.isSomeBoolean());
+      softly.assertThat(dto.getSomeString()).isEqualTo(model.getSomeString());
+      softly.assertThat(dto.getSomeInt()).isEqualTo(model.getSomeInt());
+      softly.assertAll();
+    }
+
+    @Test
+    void then_mapper_maps_all_properties_to_the_model() {
+      final var dto = new SimpleModelDto();
+      dto.setSomeBoolean(randomBoolean());
+      dto.setSomeString(randomUuid());
+      dto.setSomeInt(randomInt());
+
+      final var model = mapper.simpleModelDtoToSimpleModel(dto);
+
+      final var softly = new SoftAssertions();
+      softly.assertThat(model.isSomeBoolean()).isEqualTo(dto.isSomeBoolean());
+      softly.assertThat(model.getSomeString()).isEqualTo(dto.getSomeString());
+      softly.assertThat(model.getSomeInt()).isEqualTo(dto.getSomeInt());
+      softly.assertAll();
+    }
   }
 
-  @Test
-  void given_a_dto_then_mapper_maps_all_properties_to_the_model() {
-    final var dto = new SimpleModelDto();
-    dto.setSomeBoolean(randomBoolean());
-    dto.setSomeString(randomUuid());
-    dto.setSomeInt(randomInt());
+  @Nested
+  class Given_Dto_Is_Immutable_With_A_Builder {
 
-    final var model = mapper.simpleModelDtoToSimpleModel(dto);
+    @Test
+    void then_mapper_maps_all_properties_to_the_immutable_dto() {
+      final var model = new SimpleModel();
+      model.setSomeBoolean(randomBoolean());
+      model.setSomeString(randomUuid());
+      model.setSomeInt(randomInt());
 
-    final var softly = new SoftAssertions();
-    softly.assertThat(model.isSomeBoolean()).isEqualTo(dto.isSomeBoolean());
-    softly.assertThat(model.getSomeString()).isEqualTo(dto.getSomeString());
-    softly.assertThat(model.getSomeInt()).isEqualTo(dto.getSomeInt());
-    softly.assertAll();
-  }
+      final var dto = mapper.simpleModelToSimpleImmutableModelDto(model);
 
-  @Test
-  void given_a_model_then_mapper_maps_all_properties_to_the_immutable_dto() {
-    final var model = new SimpleModel();
-    model.setSomeBoolean(randomBoolean());
-    model.setSomeString(randomUuid());
-    model.setSomeInt(randomInt());
+      final var softly = new SoftAssertions();
+      softly.assertThat(dto.isSomeBoolean()).isEqualTo(model.isSomeBoolean());
+      softly.assertThat(dto.getSomeString()).isEqualTo(model.getSomeString());
+      softly.assertThat(dto.getSomeInt()).isEqualTo(model.getSomeInt());
+      softly.assertAll();
+    }
 
-    final var dto = mapper.simpleModelToSimpleImmutableModelDto(model);
+    @Test
+    void then_mapper_maps_all_properties_to_the_model() {
+      final var dto = SimpleImmutableModelDto.builder()
+          .someBoolean(randomBoolean())
+          .someString(randomUuid())
+          .someInt(randomInt())
+          .build();
 
-    final var softly = new SoftAssertions();
-    softly.assertThat(dto.isSomeBoolean()).isEqualTo(model.isSomeBoolean());
-    softly.assertThat(dto.getSomeString()).isEqualTo(model.getSomeString());
-    softly.assertThat(dto.getSomeInt()).isEqualTo(model.getSomeInt());
-    softly.assertAll();
-  }
+      final var model = mapper.simpleImmutableModelDtoToSimpleModel(dto);
 
-  @Test
-  void given_an_immutable_dto_then_mapper_maps_all_properties_to_the_model() {
-    final var dto = SimpleImmutableModelDto.builder()
-        .someBoolean(randomBoolean())
-        .someString(randomUuid())
-        .someInt(randomInt())
-        .build();
-
-    final var model = mapper.simpleImmutableModelDtoToSimpleModel(dto);
-
-    final var softly = new SoftAssertions();
-    softly.assertThat(model.isSomeBoolean()).isEqualTo(dto.isSomeBoolean());
-    softly.assertThat(model.getSomeString()).isEqualTo(dto.getSomeString());
-    softly.assertThat(model.getSomeInt()).isEqualTo(dto.getSomeInt());
-    softly.assertAll();
+      final var softly = new SoftAssertions();
+      softly.assertThat(model.isSomeBoolean()).isEqualTo(dto.isSomeBoolean());
+      softly.assertThat(model.getSomeString()).isEqualTo(dto.getSomeString());
+      softly.assertThat(model.getSomeInt()).isEqualTo(dto.getSomeInt());
+      softly.assertAll();
+    }
   }
 }
