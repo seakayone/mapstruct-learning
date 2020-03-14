@@ -48,4 +48,38 @@ class SimpleModelMapperTest {
     softly.assertThat(model.getSomeInt()).isEqualTo(dto.getSomeInt());
     softly.assertAll();
   }
+
+  @Test
+  void given_a_model_then_mapper_maps_all_properties_to_the_immutable_dto() {
+    final var model = SimpleModel.builder()
+        .someBoolean(randomBoolean())
+        .someString(randomUuid())
+        .someInt(randomInt())
+        .build();
+
+    final var dto = mapper.simpleModelToSimpleImmutableModelDto(model);
+
+    final var softly = new SoftAssertions();
+    softly.assertThat(dto.isSomeBoolean()).isEqualTo(model.isSomeBoolean());
+    softly.assertThat(dto.getSomeString()).isEqualTo(model.getSomeString());
+    softly.assertThat(dto.getSomeInt()).isEqualTo(model.getSomeInt());
+    softly.assertAll();
+  }
+
+  @Test
+  void given_an_immutable_dto_then_mapper_maps_all_properties_to_the_model() {
+    final var dto = SimpleImmutableModelDto.builder()
+        .someBoolean(randomBoolean())
+        .someString(randomUuid())
+        .someInt(randomInt())
+        .build();
+
+    final var model = mapper.simpleImmutableModelDtoToSimpleModel(dto);
+
+    final var softly = new SoftAssertions();
+    softly.assertThat(model.isSomeBoolean()).isEqualTo(dto.isSomeBoolean());
+    softly.assertThat(model.getSomeString()).isEqualTo(dto.getSomeString());
+    softly.assertThat(model.getSomeInt()).isEqualTo(dto.getSomeInt());
+    softly.assertAll();
+  }
 }

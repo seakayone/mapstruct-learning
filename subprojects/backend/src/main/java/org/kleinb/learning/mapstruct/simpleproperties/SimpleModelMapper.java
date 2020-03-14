@@ -8,4 +8,8 @@ public interface SimpleModelMapper {
   SimpleModel simpleModelDtoToSimpleModel(SimpleModelDto dto);
 
   SimpleModelDto simpleModelToSimpleModelDto(SimpleModel model);
+
+  SimpleModel simpleImmutableModelDtoToSimpleModel(SimpleImmutableModelDto dto);
+
+  SimpleImmutableModelDto simpleModelToSimpleImmutableModelDto(SimpleModel model);
 }
