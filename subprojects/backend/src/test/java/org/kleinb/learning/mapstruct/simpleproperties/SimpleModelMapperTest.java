@@ -32,11 +32,10 @@ class SimpleModelMapperTest {
 
   @Test
   void given_a_model_then_mapper_maps_all_properties_to_the_dto() {
-    final var model = SimpleModel.builder()
-        .someBoolean(randomBoolean())
-        .someString(randomUuid())
-        .someInt(randomInt())
-        .build();
+    final var model = new SimpleModel();
+    model.setSomeBoolean(randomBoolean());
+    model.setSomeString(randomUuid());
+    model.setSomeInt(randomInt());
 
     final var dto = mapper.simpleModelToSimpleModelDto(model);
 
@@ -49,11 +48,10 @@ class SimpleModelMapperTest {
 
   @Test
   void given_a_dto_then_mapper_maps_all_properties_to_the_model() {
-    final var dto = SimpleModelDto.builder()
-        .someBoolean(randomBoolean())
-        .someString(randomUuid())
-        .someInt(randomInt())
-        .build();
+    final var dto = new SimpleModelDto();
+    dto.setSomeBoolean(randomBoolean());
+    dto.setSomeString(randomUuid());
+    dto.setSomeInt(randomInt());
 
     final var model = mapper.simpleModelDtoToSimpleModel(dto);
 
@@ -66,11 +64,10 @@ class SimpleModelMapperTest {
 
   @Test
   void given_a_model_then_mapper_maps_all_properties_to_the_immutable_dto() {
-    final var model = SimpleModel.builder()
-        .someBoolean(randomBoolean())
-        .someString(randomUuid())
-        .someInt(randomInt())
-        .build();
+    final var model = new SimpleModel();
+    model.setSomeBoolean(randomBoolean());
+    model.setSomeString(randomUuid());
+    model.setSomeInt(randomInt());
 
     final var dto = mapper.simpleModelToSimpleImmutableModelDto(model);
 
